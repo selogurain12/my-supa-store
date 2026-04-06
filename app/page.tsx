@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "../lib/prisma";
+import SponsoredProducts from "./components/SponsoredProducts";
 
 export default async function HomePage() {
   const products = await prisma.product.findMany({
@@ -19,6 +21,26 @@ export default async function HomePage() {
             Une sélection simple et élégante pour votre boutique. Cliquez sur un produit pour voir la fiche détail.
           </p>
         </section>
+
+        <Suspense
+          fallback={
+            <section className="rounded-3xl border border-zinc-200 bg-white/80 p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+              <div className="h-8 w-2/3 animate-pulse rounded-full bg-zinc-200 dark:bg-zinc-800" />
+              <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item} className="space-y-4 rounded-3xl border border-zinc-200 bg-zinc-100 p-4 dark:border-zinc-800 dark:bg-zinc-900">
+                    <div className="h-40 rounded-3xl bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="h-4 w-2/3 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="h-3 w-1/2 rounded-full bg-zinc-200 dark:bg-zinc-800" />
+                    <div className="h-4 w-1/4 rounded-full bg-sky-200 dark:bg-sky-800" />
+                  </div>
+                ))}
+              </div>
+            </section>
+          }
+        >
+          <SponsoredProducts />
+        </Suspense>
 
         <section className="grid gap-6 md:grid-cols-2">
           {products.map((product) => (
