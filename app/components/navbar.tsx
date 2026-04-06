@@ -17,6 +17,11 @@ export default function Navbar() {
           </Link>
         </li>
         <li>
+          <Link href="/test" className="transition hover:text-sky-600 dark:hover:text-sky-400">
+            Test
+          </Link>
+        </li>
+        <li>
           <Link href="/about" className="transition hover:text-sky-600 dark:hover:text-sky-400">
             À propos
           </Link>
