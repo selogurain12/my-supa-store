@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "../../../../lib/prisma";
 import AddToCartButton from "../../../components/AddToCartButton";
+import ProductTabs from "../../../components/ProductTabs";
 
 type PageProps<P = unknown> = {
   params: Promise<P>;
@@ -55,7 +56,16 @@ export default async function ProductPage({ params }: PageProps<{ slug: string }
               <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">{product.name}</h1>
               <p className="text-2xl font-semibold text-sky-600 dark:text-sky-400">{product.price}</p>
             </div>
-            <p className="max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-300">{product.description}</p>
+            <ProductTabs
+              description={product.description}
+              specifications={{
+                "Matériau": "Coton bio",
+                "Taille": "S, M, L, XL",
+                "Couleur": "Noir, Blanc, Bleu",
+                "Entretien": "Lavage à 30°C",
+                "Origine": "Fabriqué en France"
+              }}
+            />
             <div className="space-y-3">
               <AddToCartButton
                 id={String(product.id)}
