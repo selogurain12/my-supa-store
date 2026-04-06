@@ -4,7 +4,7 @@ import { prisma } from "../../../../lib/prisma";
 import AddToCartButton from "../../../components/AddToCartButton";
 import ProductTabs from "../../../components/ProductTabs";
 
-export const dynamic = "force-static";
+export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 export const revalidate = 60;
 
