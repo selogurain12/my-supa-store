@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "../../../../lib/prisma";
+import AddToCartButton from "../../../components/AddToCartButton";
 
 type PageProps<P = unknown> = {
   params: Promise<P>;
@@ -27,6 +28,14 @@ export default async function ProductPage({ params }: PageProps<{ slug: string }
     );
   }
 
+  const cleanPrice = Number(
+    product.price
+      .replace("€", "")
+      .replace(/\s/g, "")
+      .replace(",", ".")
+  );
+
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-10 sm:px-8">
@@ -47,19 +56,27 @@ export default async function ProductPage({ params }: PageProps<{ slug: string }
               <p className="text-2xl font-semibold text-sky-600 dark:text-sky-400">{product.price}</p>
             </div>
             <p className="max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-300">{product.description}</p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/"
-                className="rounded-full border border-zinc-300 px-5 py-3 text-sm font-medium transition hover:border-sky-600 hover:text-sky-600 dark:border-zinc-700 dark:hover:border-sky-400 dark:hover:text-sky-400"
-              >
-                Retour à l’accueil
-              </Link>
-              <Link
-                href="/products"
-                className="rounded-full bg-sky-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-sky-500"
-              >
-                Voir tous les produits
-              </Link>
+            <div className="space-y-3">
+              <AddToCartButton
+                id={String(product.id)}
+                name={product.name}
+                price={cleanPrice}
+                image={product.image}
+              />
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/"
+                  className="flex-1 rounded-full border border-zinc-300 px-5 py-3 text-sm font-medium transition hover:border-sky-600 hover:text-sky-600 dark:border-zinc-700 dark:hover:border-sky-400 dark:hover:text-sky-400 text-center"
+                >
+                  Retour à l&apos;accueil
+                </Link>
+                <Link
+                  href="/products"
+                  className="flex-1 rounded-full bg-sky-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-sky-500 text-center"
+                >
+                  Voir tous les produits
+                </Link>
+              </div>
             </div>
           </div>
         </div>
