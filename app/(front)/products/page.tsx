@@ -1,18 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../data/products";
+import { products } from "../../../data/products";
 
-export default function HomePage() {
+export default function ProductsPage() {
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-10 sm:px-8">
         <section className="space-y-4">
-          <p className="text-sm uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">Catalogue</p>
+          <p className="text-sm uppercase tracking-[0.25em] text-zinc-500 dark:text-zinc-400">Produits</p>
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight sm:text-5xl">
-            Découvrez nos produits les plus populaires.
+            Tous les produits disponibles.
           </h1>
           <p className="max-w-2xl text-lg leading-8 text-zinc-600 dark:text-zinc-300">
-            Une sélection simple et élégante pour votre boutique. Cliquez sur un produit pour voir la fiche détail.
+            Retrouvez le même catalogue que sur la page d’accueil, avec un accès direct à chaque fiche produit.
           </p>
         </section>
 

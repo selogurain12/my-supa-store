@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="T-shirt Relax">
+  <rect width="500" height="400" rx="32" fill="#111827" />
+  <path d="M130 90c10-20 30-30 40-30h120c10 0 30 10 40 30l20 40v120c0 50-40 90-90 90h-40c-50 0-90-40-90-90V130l20-40Z" fill="#a855f7" />
+  <path d="M170 140c10-8 20-12 30-12h80c10 0 20 4 30 12" stroke="#f8fafc" stroke-width="18" stroke-linecap="round" fill="none" />
+  <text x="50%" y="68%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="40">Relax</text>
+</svg>

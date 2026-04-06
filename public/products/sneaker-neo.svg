@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" role="img" aria-label="Sneaker Neo">
+  <rect width="500" height="400" rx="32" fill="#1f2937" />
+  <path d="M80 260c40-120 220-120 260-80s70 100 50 120-140 40-190 20-110-50-120-60Z" fill="#fbbf24" />
+  <circle cx="130" cy="200" r="18" fill="#f8fafc" />
+  <circle cx="220" cy="170" r="16" fill="#f8fafc" />
+  <circle cx="310" cy="200" r="14" fill="#f8fafc" />
+  <text x="50%" y="65%" dominant-baseline="middle" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="40">Sneaker</text>
+</svg>
