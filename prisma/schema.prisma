@@ -11,13 +11,25 @@ datasource db {
 }
 
 model Product {
-  id          Int     @id @default(autoincrement())
-  slug        String  @unique
-  name        String
-  price       String
+  id               Int         @id @default(autoincrement())
+  slug             String      @unique
+  name             String
+  price            String
+  priceCents       Int
+  category         String
   shortDescription String
-  description String
-  image       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  description      String
+  image            String
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  cartItems        CartItem[]
+}
+
+model CartItem {
+  id         Int      @id @default(autoincrement())
+  product    Product  @relation(fields: [productId], references: [id])
+  productId  Int      @unique
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

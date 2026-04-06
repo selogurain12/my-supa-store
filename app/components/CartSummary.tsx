@@ -1,12 +1,8 @@
-"use client";
-
-import { useCart } from "@/app/context/CartContext";
 import Link from "next/link";
+import { getCartSummary, formatCurrency } from "@/lib/cart";
 
-export default function CartSummary() {
-  const { items, total } = useCart();
-
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+export default async function CartSummary() {
+  const { itemCount, totalCents } = await getCartSummary();
 
   return (
     <Link href="/cart" className="flex items-center gap-2 px-3 py-2 rounded-lg bg-sky-100 dark:bg-sky-950 hover:bg-sky-200 dark:hover:bg-sky-900 transition">
@@ -26,7 +22,7 @@ export default function CartSummary() {
       </svg>
       <div className="flex flex-col">
         <span className="text-sm font-semibold">{itemCount}</span>
-        <span className="text-xs text-gray-600 dark:text-gray-400">{Number(total).toFixed(2)}€</span>
+        <span className="text-xs text-gray-600 dark:text-gray-400">{formatCurrency(totalCents)}€</span>
       </div>
     </Link>
   );

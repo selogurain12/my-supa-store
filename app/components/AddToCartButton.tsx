@@ -1,6 +1,7 @@
 "use client";
 
-import { useCart } from "@/app/context/CartContext";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface AddToCartButtonProps {
   id: number | string;
@@ -10,18 +11,41 @@ interface AddToCartButtonProps {
 }
 
 export default function AddToCartButton({ id, name, price, image }: AddToCartButtonProps) {
-  const { addItem } = useCart();
+  const router = useRouter();
+  const [isAdding, setIsAdding] = useState(false);
 
-  const handleAddToCart = () => {
-    addItem({ id: String(id), name, price: Number(price), image });
+  const handleAddToCart = async () => {
+    setIsAdding(true);
+
+    const response = await fetch("/api/cart", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        productId: Number(id),
+        quantity: 1,
+        action: "add",
+      }),
+    });
+
+    setIsAdding(false);
+
+    if (response.ok) {
+      router.refresh();
+    } else {
+      console.error("Impossible d'ajouter le produit au panier");
+    }
   };
 
   return (
     <button
+      type="button"
       onClick={handleAddToCart}
-      className="w-full px-4 py-2 bg-sky-600 text-white rounded-lg font-medium hover:bg-sky-700 transition"
+      disabled={isAdding}
+      className="w-full px-4 py-2 bg-sky-600 text-white rounded-lg font-medium hover:bg-sky-700 transition disabled:cursor-not-allowed disabled:opacity-70"
     >
-      Ajouter au panier
+      {isAdding ? "Ajout en cours…" : "Ajouter au panier"}
     </button>
   );
 }

@@ -3,15 +3,16 @@ import Link from "next/link";
 import { prisma } from "../../../../lib/prisma";
 import AddToCartButton from "../../../components/AddToCartButton";
 import ProductTabs from "../../../components/ProductTabs";
+import SimilarProducts from "../../../components/SimilarProducts";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 export const revalidate = 60;
 
 type PageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
 export async function generateStaticParams() {
@@ -23,6 +24,15 @@ export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
   const product = await prisma.product.findUnique({
     where: { slug },
+    select: {
+      id: true,
+      slug: true,
+      name: true,
+      price: true,
+      category: true,
+      description: true,
+      image: true,
+    },
   });
 
   if (!product) {
@@ -46,6 +56,20 @@ export default async function ProductPage({ params }: PageProps) {
       .replace(",", ".")
   );
 
+  const similarProducts = await prisma.product.findMany({
+    where: {
+      category: product.category,
+      slug: { not: slug },
+    },
+    take: 3,
+  });
+
+  const fallbackProducts = similarProducts.length
+    ? similarProducts
+    : await prisma.product.findMany({
+        where: { slug: { not: slug } },
+        take: 3,
+      });
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
@@ -100,6 +124,8 @@ export default async function ProductPage({ params }: PageProps) {
             </div>
           </div>
         </div>
+
+        <SimilarProducts products={fallbackProducts} category={product.category} />
       </main>
     </div>
   );
