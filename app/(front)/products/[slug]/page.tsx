@@ -6,11 +6,12 @@ import ProductTabs from "../../../components/ProductTabs";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
+export const revalidate = 60;
 
 type PageProps = {
-  params: Promise<{
+  params: {
     slug: string;
-  }>;
+  };
 };
 
 export async function generateStaticParams() {
