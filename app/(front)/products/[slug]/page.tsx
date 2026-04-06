@@ -4,12 +4,21 @@ import { prisma } from "../../../../lib/prisma";
 import AddToCartButton from "../../../components/AddToCartButton";
 import ProductTabs from "../../../components/ProductTabs";
 
-type PageProps<P = unknown> = {
-  params: Promise<P>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+export const dynamic = "force-static";
+export const dynamicParams = false;
+
+type PageProps = {
+  params: Promise<{
+    slug: string;
+  }>;
 };
 
-export default async function ProductPage({ params }: PageProps<{ slug: string }>) {
+export async function generateStaticParams() {
+  const products = await prisma.product.findMany({ select: { slug: true } });
+  return products.map((product) => ({ slug: product.slug }));
+}
+
+export default async function ProductPage({ params }: PageProps) {
   const { slug } = await params;
   const product = await prisma.product.findUnique({
     where: { slug },
