@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { delay } from "@/lib/delay";
 
 type SimilarProduct = {
   slug: string;
@@ -10,11 +11,14 @@ type SimilarProduct = {
 };
 
 interface SimilarProductsProps {
-  products: SimilarProduct[];
+  productsPromise: Promise<SimilarProduct[]>;
   category: string;
 }
 
-export default function SimilarProducts({ products, category }: SimilarProductsProps) {
+export default async function SimilarProducts({ productsPromise, category }: SimilarProductsProps) {
+  const products = await productsPromise;
+  await delay(500);
+
   return (
     <section className="rounded-3xl border border-zinc-200 bg-white/80 p-6 shadow-sm dark:border-zinc-800 dark:bg-zinc-950/80">
       <div className="flex items-center justify-between gap-4 mb-6">
