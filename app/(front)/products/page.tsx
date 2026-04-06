@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../../../data/products";
+import { prisma } from "../../../lib/prisma";
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const products = await prisma.product.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
       <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-10 px-6 py-10 sm:px-8">

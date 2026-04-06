@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "../../../../data/products";
+import { prisma } from "../../../../lib/prisma";
 
 type PageProps<P = unknown> = {
   params: Promise<P>;
@@ -9,7 +9,9 @@ type PageProps<P = unknown> = {
 
 export default async function ProductPage({ params }: PageProps<{ slug: string }>) {
   const { slug } = await params;
-  const product = products.find((item) => item.slug === slug);
+  const product = await prisma.product.findUnique({
+    where: { slug },
+  });
 
   if (!product) {
     return (
