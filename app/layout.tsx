@@ -1,13 +1,24 @@
 import type { ReactNode } from "react";
-import Link from "next/link";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "./components/navbar";
 import Footer from "./components/footbar";
 
+const dancingScript = localFont({
+  src: [
+    {
+      path: "../public/fonts/DancingScript-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-dancing-script",
+});
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
-      <body>
+      <body className={dancingScript.variable}>
         <Navbar />
         <main>{children}</main>
         <Footer />
