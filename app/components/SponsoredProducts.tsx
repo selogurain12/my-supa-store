@@ -1,3 +1,4 @@
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import RefreshSponsoredButton from "./RefreshSponsoredButton";
@@ -19,7 +20,12 @@ type MockStoreResponse = {
 };
 
 export default async function SponsoredProducts() {
-  const response = await fetch("/api/mockstore", {
+  const headersList = await headers();
+  const host = headersList.get("host") ?? "localhost:3000";
+  const protocol = headersList.get("x-forwarded-proto") ?? "http";
+  const baseUrl = `${protocol}://${host}`;
+
+  const response = await fetch(new URL("/api/mockstore", baseUrl), {
     cache: "force-cache",
     next: {
       tags: ["sponsored-products"],
