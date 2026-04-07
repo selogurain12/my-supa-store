@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import UpdateProductForm from "./UpdateProductForm";
-import { updateProduct } from "./actions";
+import { updateProduct, testError } from "./actions";
 
 type PageProps = {
   params: Promise<{
@@ -32,7 +32,7 @@ export default async function EditProductPage({ params }: PageProps) {
           </p>
         </div>
 
-        <UpdateProductForm product={product} action={updateProduct} />
+        <UpdateProductForm product={product} action={updateProduct} testError={testError} />
       </div>
     </section>
   );

@@ -22,27 +22,40 @@ export async function updateProduct(formData: FormData) {
   const parsed = productUpdateSchema.safeParse(data);
 
   if (!parsed.success) {
-    const errors = parsed.error.issues.map((issue) => issue.message).join(" ");
-    throw new Error(`Erreur de validation : ${errors}`);
+    const errors: Record<string, string> = {};
+    parsed.error.issues.forEach((issue) => {
+      const field = issue.path[0] as string;
+      errors[field] = issue.message;
+    });
+    throw new Error(JSON.stringify({ success: false, errors }));
   }
 
   const productId = Number(parsed.data.id);
 
-  await prisma.product.update({
-    where: { id: productId },
-    data: {
-      name: parsed.data.name,
-      slug: parsed.data.slug,
-      price: parsed.data.price,
-      priceCents: parsed.data.priceCents,
-      category: parsed.data.category,
-      shortDescription: parsed.data.shortDescription,
-      description: parsed.data.description,
-      image: parsed.data.image,
-    },
-  });
+  try {
+    await prisma.product.update({
+      where: { id: productId },
+      data: {
+        name: parsed.data.name,
+        slug: parsed.data.slug,
+        price: parsed.data.price,
+        priceCents: parsed.data.priceCents,
+        category: parsed.data.category,
+        shortDescription: parsed.data.shortDescription,
+        description: parsed.data.description,
+        image: parsed.data.image,
+      },
+    });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du produit:", error);
+    throw new Error(JSON.stringify({ success: false, errors: { general: "Impossible de mettre à jour le produit. Veuillez réessayer." } }));
+  }
 
   revalidateTag("products", "max");
-
   redirect("/admin/products");
+}
+
+export async function testError() {
+  "use server";
+  throw new Error("Ceci est une erreur de test pour vérifier l'affichage des erreurs.");
 }
