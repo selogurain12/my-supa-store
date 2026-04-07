@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "./components/navbar";
-import Footer from "./components/footbar";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footbar";
+import Providers from "./providers";
 
 const dancingScript = localFont({
   src: [
@@ -19,9 +20,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="fr">
       <body className={dancingScript.variable}>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        <Providers>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

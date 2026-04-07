@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { prisma } from "../lib/prisma";
-import SponsoredProducts from "./components/SponsoredProducts";
+import { prisma } from "@/lib/prisma";
+import SponsoredProducts from "@/components/SponsoredProducts";
 
 export default async function HomePage() {
   const products = await prisma.product.findMany({

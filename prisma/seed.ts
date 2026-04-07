@@ -1,11 +1,36 @@
 import { PrismaClient } from "@prisma/client";
+import { hash } from "bcryptjs";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  // Clear existing products and cart items
+  // Clear existing products and auth data
   await prisma.cartItem.deleteMany({});
   await prisma.product.deleteMany({});
+  await prisma.account.deleteMany({});
+  await prisma.session.deleteMany({});
+  await prisma.verificationToken.deleteMany({});
+  await prisma.user.deleteMany({});
+
+  const adminPassword = await hash("admin123", 10);
+  const userPassword = await hash("user123", 10);
+
+  await prisma.user.createMany({
+    data: [
+      {
+        name: "Admin User",
+        email: "admin@example.com",
+        password: adminPassword,
+        role: "admin",
+      },
+      {
+        name: "Demo User",
+        email: "user@example.com",
+        password: userPassword,
+        role: "user",
+      },
+    ],
+  });
 
   // Seed products
   await prisma.product.createMany({

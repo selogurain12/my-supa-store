@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getCartItems, formatCurrency } from "@/lib/cart";
-import CartItemRow from "@/app/components/CartItemRow";
+import CartItemRow from "@/components/CartItemRow";
 
 export default async function CartPage() {
   const items = await getCartItems();

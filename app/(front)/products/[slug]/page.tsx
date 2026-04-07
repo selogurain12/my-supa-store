@@ -1,6 +1,6 @@
 import { Suspense } from "react";
-import { prisma } from "../../../../lib/prisma";
-import ProductDetails from "../../../components/ProductDetails";
+import { prisma } from "@/lib/prisma";
+import ProductDetails from "@/components/ProductDetails";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = false;
