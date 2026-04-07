@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { revalidateTag } from "next/cache";
 import { z } from "zod";
 
 const productUpdateSchema = z.object({
@@ -40,6 +41,8 @@ export async function updateProduct(formData: FormData) {
       image: parsed.data.image,
     },
   });
+
+  revalidateTag("products", "max");
 
   redirect("/admin/products");
 }

@@ -1,13 +1,22 @@
 import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { unstable_cache } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import SponsoredProducts from "@/components/SponsoredProducts";
 
+const getProducts = unstable_cache(
+  async () => {
+    return await prisma.product.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+  },
+  ["products"],
+  { revalidate: 3600 }
+);
+
 export default async function HomePage() {
-  const products = await prisma.product.findMany({
-    orderBy: { createdAt: "desc" },
-  });
+  const products = await getProducts();
 
   return (
     <div className="min-h-screen bg-zinc-50 text-zinc-950 dark:bg-black dark:text-zinc-50">
