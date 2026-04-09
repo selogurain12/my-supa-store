@@ -6,6 +6,7 @@ import Footer from "@/components/footbar";
 import { ABTestDisplay } from "@/components/ABTestDebug";
 import Providers from "./providers";
 import WebVitalsLogger from "@/components/WebVitalsLogger";
+import SiteNameDemo from "@/components/SiteNameDemo";
 
 const dancingScript = localFont({
   src: [
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="fr">
       <body className={dancingScript.variable}>
         <Providers>
+          <SiteNameDemo />
           <Navbar />
           <WebVitalsLogger />
           <main>{children}</main>

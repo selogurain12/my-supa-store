@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const title = `${product.name} — MySupaStore`;
   const description = product.description || product.shortDescription || "Découvrez ce produit sur MySupaStore.";
   const keywords = [product.name, product.category].filter(Boolean) as string[];
-  const productUrl = `/products/${slug}`;
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? "";
+  const productUrl = `${base.replace(/\/$/, "")}/products/${slug}`;
 
   return {
     title,
