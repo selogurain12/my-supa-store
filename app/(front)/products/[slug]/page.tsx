@@ -1,10 +1,57 @@
 import { Suspense } from "react";
 import { prisma } from "@/lib/prisma";
+import type { Metadata } from "next";
 import ProductDetails from "@/components/ProductDetails";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 export const revalidate = 60;
+
+type Params = {
+  params: Promise<{ slug: string }>;
+};
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params;
+
+  const product = await prisma.product.findUnique({
+    where: { slug },
+    select: {
+      name: true,
+      description: true,
+      shortDescription: true,
+      image: true,
+      category: true,
+    },
+  });
+
+  if (!product) {
+    return {
+      title: "Produit introuvable | MySupaStore",
+      description: "Ce produit est introuvable.",
+      robots: { index: false, follow: false },
+    };
+  }
+
+  const title = `${product.name} — MySupaStore`;
+  const description = product.description || product.shortDescription || "Découvrez ce produit sur MySupaStore.";
+  const keywords = [product.name, product.category].filter(Boolean) as string[];
+  const productUrl = `/products/${slug}`;
+
+  return {
+    title,
+    description,
+    keywords,
+    robots: { index: true, follow: true },
+    openGraph: {
+      title,
+      description,
+      url: productUrl,
+      images: product.image ? [product.image] : [],
+      type: "website",
+    },
+  };
+}
 
 type PageProps = {
   params: Promise<{
