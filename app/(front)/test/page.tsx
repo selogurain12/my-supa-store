@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 export default function TestPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,6 +58,20 @@ export default function TestPage() {
               Déclencher une Erreur
             </button>
           </div>
+          <Link
+            href="/test/ab"
+            className="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-sm border border-zinc-200 dark:border-zinc-800 flex flex-col justify-between hover:shadow-md transition"
+          >
+            <div>
+              <h2 className="text-xl font-semibold mb-4 text-purple-600 dark:text-purple-400">🧪 Test A/B</h2>
+              <p className="text-zinc-600 dark:text-zinc-400 mb-4">
+                Testez le système de test A/B avec cookies. Voir les variants et forcer des valeurs.
+              </p>
+            </div>
+            <span className="inline-flex items-center gap-2 text-purple-600 dark:text-purple-400 font-medium">
+              Accéder au test →
+            </span>
+          </Link>
         </div>
 
         <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 shadow-sm border border-zinc-200 dark:border-zinc-800">

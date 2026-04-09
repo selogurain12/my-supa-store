@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footbar";
+import { ABTestDisplay } from "@/components/ABTestDebug";
 import Providers from "./providers";
 
 const dancingScript = localFont({
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Navbar />
           <main>{children}</main>
           <Footer />
+          <ABTestDisplay />
         </Providers>
       </body>
     </html>
